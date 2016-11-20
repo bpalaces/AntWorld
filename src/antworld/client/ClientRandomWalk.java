@@ -19,7 +19,7 @@ import antworld.common.AntAction.AntActionType;
 public class ClientRandomWalk
 {
   private static final boolean DEBUG = true;
-  private static final TeamNameEnum myTeam = TeamNameEnum.RANDOM_WALKERS;
+  private final TeamNameEnum myTeam;
   private static final long password = 962740848319L;//Each team has been assigned a random password.
   private ObjectInputStream inputStream = null;
   private ObjectOutputStream outputStream = null;
@@ -37,15 +37,14 @@ public class ClientRandomWalk
   private static Random random = Constants.random;
 
 
-  public ClientRandomWalk(String host, int portNumber)
+  public ClientRandomWalk(String host, int portNumber, TeamNameEnum team)
   {
-    System.out.println("Starting ClientRandomWalk: " + System.currentTimeMillis());
-    isConnected = false;
-    while (!isConnected)
-    {
-      isConnected = openConnection(host, portNumber);
-      if (!isConnected) try { Thread.sleep(2500); } catch (InterruptedException e1) {}
-    }
+    myTeam = team;
+    System.out.println("Starting " + team +" on " + host + ":" + portNumber + " at "
+      + System.currentTimeMillis());
+
+    isConnected = openConnection(host, portNumber);
+    if (!isConnected) System.exit(0);
     CommData data = obtainNest();
     mainGameLoop(data);
     closeAll();
@@ -330,13 +329,25 @@ public class ClientRandomWalk
     return action;
   }
 
+
+  /**
+   * The last argument is taken as the host name.
+   * The default host is localhost.
+   * Also supports an optional option for the teamname.
+   * The default teamname is TeamNameEnum.RANDOM_WALKERS.
+   * @param args Array of command-line arguments.
+   */
   public static void main(String[] args)
   {
     String serverHost = "localhost";
-    if (args.length > 0) serverHost = args[0];
-    System.out.println("Starting client with connection to: " + serverHost);
+    if (args.length > 0) serverHost = args[args.length -1];
 
-    new ClientRandomWalk(serverHost, Constants.PORT);
+    TeamNameEnum team = TeamNameEnum.RANDOM_WALKERS;
+    if (args.length > 1)
+    { team = TeamNameEnum.getTeamByString(args[0]);
+    }
+
+    new ClientRandomWalk(serverHost, Constants.PORT, team);
   }
 
 }

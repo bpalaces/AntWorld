@@ -146,22 +146,9 @@ public class AntWorld implements ActionListener
       ArrayList<AntData> antList = myNest.getAntList();
       for (AntData ant : antList)
       {
-        ant.id = Ant.restoreAntID_Hack();
-        // addAnt(ant);
+        ant.id = Ant.getNewID();
       }
     }
-
-//		for (FoodSpawnSite spawnSite : foodSpawnList) {
-//			ArrayList<FoodData> foodList = spawnSite.getFoodList();
-//			for (FoodData food : foodList) {
-//			  if (food.getCount() <= 0) 
-//			  { System.out.println("****ERROR**** " + food);
-//			  
-//				  addFood(spawnSite, food);
-//			  }
-//			}
-//		}
-
   }
 
   public int getWorldWidth()
@@ -550,9 +537,11 @@ public class AntWorld implements ActionListener
   private void createFoodSpawnSite()
   {
     int totalSitesToSpawn = 3 + random.nextInt(3);
+    int xRange = worldWidth/totalSitesToSpawn;
     while (totalSitesToSpawn > 0)
     {
-      int spawnX = random.nextInt(worldWidth);
+      int spawnX = random.nextInt(xRange);
+      spawnX = spawnX + (totalSitesToSpawn-1)*xRange;
       int spawnY = random.nextInt(worldHeight);
 
       if (world[spawnX][spawnY].getLandType() == LandType.GRASS)

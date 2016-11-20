@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Constants
 {
-  public static final long VERSION = 20161118L;
+  public static final long VERSION = 20161120L;
   public static final int NEST_RADIUS = 20;
   
   public static final int INITIAL_ANT_SPAWN_COUNT = 100;

@@ -26,5 +26,18 @@ public enum TeamNameEnum
   Sam_Dominic,
   Sarah_Beatriz,
   Kim_Javier,
-  Linh_Dustin
+  Linh_Dustin;
+
+  public static TeamNameEnum getTeamByString(String name)
+  {
+    for(TeamNameEnum team : values())
+    {
+      if( name.equals(team.name()))
+      {
+        return team;
+      }
+    }
+    return null;
+
   }
+}

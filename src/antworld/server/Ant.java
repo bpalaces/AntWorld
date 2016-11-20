@@ -13,7 +13,7 @@ import antworld.common.LandType;
 import antworld.common.NestNameEnum;
 import antworld.common.TeamNameEnum;
 
-public class Ant //extends AntData
+public class Ant
 {
   public static final int INVALID_ANT_ID = -7;
   private static Random random = Constants.random;
@@ -22,13 +22,13 @@ public class Ant //extends AntData
   
   public static AntData createAnt(AntType type, NestNameEnum nestName, TeamNameEnum teamName)
   {
-    idCount++;
+    int id = getNewID();
     
-    return new AntData(idCount, type, nestName, teamName);
+    return new AntData(id, type, nestName, teamName);
   }
   
   
-  public static int restoreAntID_Hack()
+  public static synchronized int getNewID()
   {
     idCount++;
     return idCount;

@@ -192,6 +192,7 @@ public class Renderer extends JPanel implements KeyListener, MouseListener, Mous
 
   public void drawCell(Cell myCell)
   {
+
     int x = myCell.getLocationX();
     int y = myCell.getLocationY();
     this.world.setRGB(x, y, myCell.getRGB());
